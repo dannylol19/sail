@@ -79,8 +79,7 @@ namespace sail {
       }
       case cmpi: {
         // operands: register, value
-        auto dst = next_reg();
-        auto val = next_val();
+        auto [dst, val] = next_reg_val();
         set_cmp_flags(registers.at(dst), val);
         return;
       }
@@ -120,8 +119,7 @@ namespace sail {
       }
       case xori: {
         // operands: register, value
-        auto dst = next_reg();
-        auto val = next_val();
+        auto [dst, val] = next_reg_val();
         registers[dst] ^= val;
         return;
       }
@@ -133,8 +131,7 @@ namespace sail {
       }
       case addi: {
         // operands: register, value
-        auto dst = next_reg();
-        auto val = next_val();
+        auto [dst, val] = next_reg_val();
         registers[dst] += val;
         return;
       }
@@ -146,8 +143,7 @@ namespace sail {
       }
       case subi: {
         // operands: register, value
-        auto dst = next_reg();
-        auto val = next_val();
+        auto [dst, val] = next_reg_val();
         registers[dst] -= val;
         return;
       }
@@ -159,8 +155,7 @@ namespace sail {
       }
       case muli: {
         // operands: register, value
-        auto dst = next_reg();
-        auto val = next_val();
+        auto [dst, val] = next_reg_val();
         registers[dst] *= val;
         return;
       }
@@ -172,15 +167,39 @@ namespace sail {
       }
       case divi: {
         // operands: register, value
-        auto dst = next_reg();
-        auto val = next_val();
+        auto [dst, val] = next_reg_val();
         registers[dst] /= val;
         return;
       }
       case or_: {
         // operands: register, register
         auto [dst, src] = next_reg_reg();
-
+        registers[dst] |= src;
+      }
+      case ori: {
+        // operands: register, value
+        auto [dst, val] = next_reg_val();
+        registers[dst] |= val;
+      }
+      case and_: {
+        // operands: register, register
+        auto [dst, src] = next_reg_reg();
+        registers[dst] &= src;
+      }
+      case andi: {
+        // operands: register, value
+        auto [dst, val] = next_reg_val();
+        registers[dst] &= val;
+      }
+      case mod: {
+        // operands: register, register
+        auto [dst, src] = next_reg_reg();
+        registers[dst] %= src;
+      }
+      case modi: {
+        // operands: register, value
+        auto [dst, val] = next_reg_val();
+        registers[dst] %= val;
       }
       default: // this should never happen
         panic("invalid opcode", oc);
