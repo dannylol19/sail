@@ -201,6 +201,39 @@ namespace sail {
         auto [dst, val] = next_reg_val();
         registers[dst] %= val;
       }
+      case not_: {
+        // operands: register
+        auto reg = next_reg();
+        registers[reg] = ~registers.at(reg);
+      }
+      case jl: {
+        // operands: label
+        auto lbl = next_lbl();
+        if (flags.at(lt)) {
+          pc = lbl-1;
+        }
+      }
+      case jle: {
+        // operands: label
+        auto lbl = next_lbl();
+        if (flags.at(lt) || flags.at(eq)) {
+          pc = lbl-1;
+        }
+      }
+      case jg: {
+        // operands: label
+        auto lbl = next_lbl();
+        if (flags.at(gt)) {
+          pc = lbl-1;
+        }
+      }
+      case jge: {
+        // operands: label
+        auto lbl = next_lbl();
+        if (flags.at(gt) || flags.at(eq)) {
+          pc = lbl-1;
+        }
+      }
       default: // this should never happen
         panic("invalid opcode", oc);
         return;
