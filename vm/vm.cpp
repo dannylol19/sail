@@ -2,7 +2,7 @@
 #include <cstring>
 
 namespace sail {
-  vm::vm(std::vector<int32_t> program) : program(std::move(program)) {}
+  vm::vm(const std::vector<int32_t>& program) : program(program) {}
 
   void vm::run() {
     while (pc < program.size()) {
@@ -19,7 +19,7 @@ namespace sail {
   // returns index of next register
   int32_t vm::next_reg() {
     const int32_t reg = program.at(pc++);
-    if (reg < a0 || reg > REGISTERS_END-1) {
+    if (reg < rax || reg > REGISTERS_END-1) {
       panic("invalid register", reg);
     }
     return reg-255;

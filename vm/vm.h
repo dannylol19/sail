@@ -34,8 +34,8 @@ namespace sail {
     std::array<int32_t, REGISTERS_END-255> registers {};
     std::array<bool, FLAGS_END> flags = {false, false, false};
 
-    std::vector<int32_t> program;
-    explicit vm(std::vector<int32_t> program);
+    const std::vector<int32_t>& program;
+    explicit vm(const std::vector<int32_t>& program);
 
     void run();
     void panic(const char* msg, int32_t x) const;
