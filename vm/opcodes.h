@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <array>
 
-// todo: add jnz, jz, movs, movsi instructions
+// todo: implement jnz, jz, movs, movsi instructions
 enum e_opcode : uint32_t {
   mov = 1u,   // move dst register, src register
   movi,       // move register, value
@@ -35,5 +35,9 @@ enum e_opcode : uint32_t {
   jle,        // jump to [label] if less than or equal to
   jg,         // jump to [label] if greater than
   jge,        // jump to [label] if greater than or equal to
+  jz,         // jump to [label] if zero
+  jnz,        // jump to [label] if not zero
+  movs,       // move register, string
+  movsi,      // move register, register (containing string) (not sure about this)
   OPCODES_END
 };
