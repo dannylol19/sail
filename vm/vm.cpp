@@ -18,7 +18,7 @@ namespace sail {
 
   // returns index of next register
   int32_t vm::next_reg() {
-    const int32_t reg = program.at(pc++);
+    const int32_t reg = program.at(++pc);
     if (reg < rax || reg > REGISTERS_END-1) {
       panic("invalid register", reg);
     }
@@ -27,12 +27,12 @@ namespace sail {
 
   // returns next value
   int32_t vm::next_val() {
-    return program.at(pc++);
+    return program.at(++pc);
   }
 
   // returns index of next label
   int32_t vm::next_lbl() {
-    return INT32_MAX-program.at(pc++);
+    return INT32_MAX-program.at(++pc);
   }
 
   pair_int32 vm::next_reg_reg() {
@@ -175,36 +175,43 @@ namespace sail {
         // operands: register, register
         auto [dst, src] = next_reg_reg();
         registers[dst] |= src;
+        return;
       }
       case ori: {
         // operands: register, value
         auto [dst, val] = next_reg_val();
         registers[dst] |= val;
+        return;
       }
       case and_: {
         // operands: register, register
         auto [dst, src] = next_reg_reg();
         registers[dst] &= src;
+        return;
       }
       case andi: {
         // operands: register, value
         auto [dst, val] = next_reg_val();
         registers[dst] &= val;
+        return;
       }
       case mod: {
         // operands: register, register
         auto [dst, src] = next_reg_reg();
         registers[dst] %= src;
+        return;
       }
       case modi: {
         // operands: register, value
         auto [dst, val] = next_reg_val();
         registers[dst] %= val;
+        return;
       }
       case not_: {
         // operands: register
         auto reg = next_reg();
         registers[reg] = ~registers.at(reg);
+        return;
       }
       case jl: {
         // operands: label
@@ -212,6 +219,7 @@ namespace sail {
         if (flags.at(lt)) {
           pc = lbl-1;
         }
+        return;
       }
       case jle: {
         // operands: label
@@ -219,6 +227,7 @@ namespace sail {
         if (flags.at(lt) || flags.at(eq)) {
           pc = lbl-1;
         }
+        return;
       }
       case jg: {
         // operands: label
@@ -226,6 +235,7 @@ namespace sail {
         if (flags.at(gt)) {
           pc = lbl-1;
         }
+        return;
       }
       case jge: {
         // operands: label
@@ -233,6 +243,7 @@ namespace sail {
         if (flags.at(gt) || flags.at(eq)) {
           pc = lbl-1;
         }
+        return;
       }
       default: // this should never happen
         panic("invalid opcode", oc);
