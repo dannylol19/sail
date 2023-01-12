@@ -4,7 +4,19 @@
 #include "vm.h"
 
 int main() {
-  std::vector<int32_t> program = {2, 255, 69, 5, 255, 69, 7, INT32_MAX-10, 9, 255, 2, 255, 420, 9, 255};
+  /*
+  ; test program: outputs 1 to 10 on seperate lines
+
+  movi rax, 1
+
+  for_loop:
+    out rax
+    inc rax
+    cmpi rax, 10
+    jle for_loop
+  */
+  //                               0     1   2   3    4    5    6    7     8   9   10   11 (goto3)
+  std::vector<int32_t> program = {movi, rax, 0, out, rax, inc, rax, cmpi, rax, 10, jl, INT_MAX-3};
 
   sail::vm test_vm(program);
   test_vm.run();

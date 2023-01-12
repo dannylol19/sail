@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <array>
 
+// todo: add jnz, jz, movs, movsi instructions
 enum e_opcode : uint32_t {
   mov = 1u,   // move dst register, src register
   movi,       // move register, value
