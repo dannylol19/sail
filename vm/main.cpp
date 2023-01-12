@@ -16,7 +16,7 @@ int main() {
     jle for_loop
   */
   //                               0     1   2   3    4    5    6    7     8   9   10   11 (goto3)
-  std::vector<int32_t> program = {movi, rax, 0, out, rax, inc, rax, cmpi, rax, 10, jl, INT_MAX-3};
+  std::vector<int32_t> program = {movi, rax, 1, out, rax, inc, rax, cmpi, rax, 10, jle, INT_MAX-3};
 
   sail::vm test_vm(program);
   test_vm.run();
